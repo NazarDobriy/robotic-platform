@@ -18,8 +18,14 @@ void setup() {
 }
 
 void loop() {
-  if (bluetooth.available() && ultrasonic.read() > 10) {
+  if (bluetooth.available()) {
+
+    if (ultrasonic.read() < 10) {
+      stop();
+    }
+
     cmd = bluetooth.read();
+    
     if (cmd == 'F') {
       forward();
     } else if (cmd == 'B') {
@@ -31,8 +37,6 @@ void loop() {
     } else if (cmd == 'S') {
       stop();
     }
-  } else {
-    stop();
   }
 }
 
@@ -65,6 +69,8 @@ void right() {
 }
 
 void stop() {
-  analogWrite(5, 0);
-  analogWrite(10, 0);
+  digitalWrite(6, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(9, LOW);
 }
